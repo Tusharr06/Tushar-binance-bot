@@ -1,2 +1,4 @@
 # Placeholder requirements
 requests
+fpdf2
+binance-connector
