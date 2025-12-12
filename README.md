@@ -1,104 +1,127 @@
-# tushar-binance-bot
+# FutureTrade Pro 🤖
 
-## 1. Project Overview
+**A Full-Stack Binance Futures Trading Bot & Dashboard**
 
-This is a **CLI-based Binance USDT-M Futures trading bot** designed for automated trading strategies. It supports multiple order types including Market, Limit, and skeletons for advanced strategies like OCO (One-Cancels-the-Other) and TWAP (Time-Weighted Average Price). The bot features robust input validation, structured logging, a safety-first dry-run mode, and a modular architecture for easy extensibility.
+![Status](https://img.shields.io/badge/Status-Active-success) ![Stack](https://img.shields.io/badge/Stack-Python_%7C_React_%7C_Flask-blue) ![License](https://img.shields.io/badge/License-MIT-purple)
 
-## 2. Order Types Implemented
+**FutureTrade Pro** is a comprehensive automated trading solution that combines a robust **Python Trading Engine** with a modern **React Dashboard** and a flexible **REST API**. Designed for algorithmic traders who need safety (Dry-Run), visibility (Dashboard), and extensibility.
 
-The bot currently supports the following order types:
+---
 
-*   **Market Orders**: Immediate execution at the current market price. Fully implemented with validation and live/dry-run modes.
-*   **Limit Orders**: Placed at a specific price. Fully implemented with validation and live/dry-run modes.
-*   **OCO Orders (Skeleton)**: Structure for One-Cancels-the-Other orders. Validates inputs and returns a mock response in dry-run.
-*   **TWAP Strategy (Skeleton)**: Structure for Time-Weighted Average Price strategy. Calculates slices and returns a plan in dry-run logic.
+## 📸 UI Gallery
 
-## 3. Architecture Overview
+Experience the dark-themed, professional trading terminal.
 
-The project follows a modular design:
+| Dashboard Overview | Order Execution | Console Logs |
+|:---:|:---:|:---:|
+| ![Dashboard](images/ui_preview_1.png) | ![Ordering](images/ui_preview_2.png) | ![Console](images/ui_preview_3.png) |
 
-*   **`src/config.py`**: Handles environment variable loading (`.env`) and configuration validation using `dataclasses`.
-*   **`src/logger.py`**: Provides a singleton-like logger with rotating file handlers and console output.
-*   **`src/orders/binance_client.py`**: A wrapper around the `binance-connector-python` library. It handles authentication and toggles between real API calls and dry-run simulations.
-*   **`src/orders/market_orders.py`**: Logic for placing market orders.
-*   **`src/orders/limit_orders.py`**: Logic for placing limit orders.
-*   **`src/orders/advanced/`**: Directory for advanced strategies like `oco.py` and `twap.py`.
+---
 
-## 4. Dry-Run Mode
+## 🚀 Quick Start (Full Stack)
 
-**Safety First**: The bot includes a `DRY_RUN` mode, configurable via the `.env` file or CLI flag `--dry-run`.
+Get the entire system (Frontend + Backend) running in minutes.
 
-*   **No Real Trades**: In this mode, no requests are sent to the Binance matching engine.
-*   **Safe for Testing**: Ideal for validating logic, configuration, and API connectivity without risking capital.
-*   **Response Simulation**: The bot returns structured JSON responses mimicking API behavior.
+### 1. Prerequisites
+*   Python 3.8+
+*   Node.js & npm
+*   Binance Futures Account (API Key & Secret)
 
-## 5. Usage & Example Outputs
-
-### Market Order (Dry-Run)
-```bash
-python src/cli.py market BTCUSDT BUY 0.001 --dry-run
-```
-**Output:**
-```json
-{
-  "status": "dry-run",
-  "action": "create_market_order",
-  "payload": {
-    "symbol": "BTCUSDT",
-    "side": "BUY",
-    "type": "MARKET",
-    "quantity": 0.001,
-    "reduceOnly": false
-  }
-}
-```
-
-### Limit Order (Dry-Run)
-```bash
-python src/cli.py limit BTCUSDT BUY 0.001 45000 --dry-run
-```
-**Output:**
-```json
-{
-  "status": "dry-run",
-  "action": "create_limit_order",
-  "payload": {
-    "symbol": "BTCUSDT",
-    "side": "BUY",
-    "type": "LIMIT",
-    "quantity": 0.001,
-    "price": "45000.0",
-    "timeInForce": "GTC",
-    "reduceOnly": false
-  }
-}
-```
-
-## 6. Installation
-
-1.  **Clone repo**:
+### 2. Setup Backend
+1.  **Clone & Install**:
     ```bash
     git clone https://github.com/yourusername/tushar-binance-bot.git
     cd tushar-binance-bot
-    ```
-2.  **Create virtual environment**:
-    ```bash
-    python -m venv venv
-    .\venv\Scripts\activate # Windows
-    source venv/bin/activate # Linux/Mac
-    ```
-3.  **Install dependencies**:
-    ```bash
     pip install -r requirements.txt
     ```
-4.  **Setup Environment**:
-    Create a `.env` file in the root directory and configure your API keys (see `.env` section above).
+2.  **Configure Credentials**:
+    Create a `.env` file in the root:
+    ```ini
+    BINANCE_API_KEY=your_api_key
+    BINANCE_API_SECRET=your_api_secret
+    DRY_RUN=True  # Set to False for real trading
+    ```
+3.  **Launch API**:
+    ```bash
+    python api/server.py
+    ```
+    *Server runs on `http://localhost:5000`*
 
-## 7. How to Extend
+### 3. Setup Frontend
+1.  **Install & Run**:
+    Open a new terminal:
+    ```bash
+    cd frontend
+    npm install
+    npm run dev
+    ```
+2.  **Access Dashboard**:
+    Open **[http://localhost:5173](http://localhost:5173)** in your browser.
 
-This bot is designed to be a foundation for a more complex trading system.
+---
 
-*   **Stop-Limit**: Implement logic similar to `limit_orders.py` but with `STOP` or `STOP_MARKET` types.
-*   **Trailing Stop**: Add a callback mechanism to adjust stop prices based on market movement.
-*   **Grid Trading**: utilize the `src/orders/advanced/` folder to build a stateful grid runner.
-*   **Real TWAP**: Convert the skeleton into a loop that executes `market_orders` over the specified interval.
+## ✨ Features
+
+### 🖥️ **Modern React Dashboard**
+*   **Real-Time Connectivity**: Live ping check to the backend.
+*   **Professional UI**: specific color cues for BUY (Green) and SELL (Red) actions.
+*   **JSON Console**: View raw API responses directly in the UI for debugging.
+
+### 🔌 **Flask REST API**
+*   **Unified Interface**: Wraps the Python bot logic into standard HTTP endpoints.
+*   **Endpoints**:
+    *   `GET /api/ping`: System health check.
+    *   `POST /api/market`: Place market orders.
+    *   `POST /api/limit`: Place limit orders.
+
+### 🛡️ **Safety-First Core**
+*   **Dry-Run Mode**: Defaults to simulation mode. Validate logic without risking a cent.
+*   **Input Validation**: Strict checks on symbols, quantities, and prices before API submission.
+*   **Logging**: Detailed rotating logs in `bot.log`.
+
+---
+
+## 🛠️ CLI Usage (Legacy)
+
+You can still use the bot via command line for headless operations.
+
+**Market Order (Dry-Run)**
+```bash
+python src/cli.py market BTCUSDT BUY 0.001 --dry-run
+```
+
+**Limit Order (Dry-Run)**
+```bash
+python src/cli.py limit BTCUSDT BUY 0.001 45000 --dry-run
+```
+
+**Generate PDF Report**
+Valdiate your setup with a comprehensive PDF report:
+```bash
+python generate_pdf_report.py
+```
+
+---
+
+## 🧩 Architecture
+
+The project follows a modular "Clean Architecture" design:
+
+```
+tushar-binance-bot/
+├── api/                 # Flask Backend
+│   └── server.py        # API Entrypoint
+├── frontend/            # React Frontend
+│   └── src/             # UI Source
+├── src/                 # Core Trading Logic
+│   ├── config.py        # Settings & Env
+│   ├── logger.py        # Centralized Logging
+│   └── orders/          # Order Execution Modules
+└── images/              # Project Screenshots
+```
+
+## 🤝 Extending
+
+*   **New Strategies**: Add scripts in `src/orders/advanced/` (e.g., Grid, TWAP).
+*   **New API Endpoints**: Add route handlers in `api/server.py`.
+*   **UI Components**: Edit `frontend/src/App.jsx` to add charts or new forms.

@@ -2,3 +2,5 @@
 requests
 fpdf2
 binance-connector
+Flask
+flask-cors
