@@ -92,7 +92,7 @@ python src/cli.py limit BTCUSDT BUY 0.001 45000 --dry-run
     pip install -r requirements.txt
     ```
 4.  **Setup Environment**:
-    Copy `.env.example` to `.env` and configure your API keys.
+    Create a `.env` file in the root directory and configure your API keys (see `.env` section above).
 
 ## 7. How to Extend
 

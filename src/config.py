@@ -10,12 +10,12 @@ except ImportError:
 
 @dataclass
 class BotConfig:
-    binance_api_key: Optional[str]
-    binance_api_secret: Optional[str]
-    dry_run: bool
-    bot_logfile: str
-    default_symbol: str
-    default_quantity: float
+    BINANCE_API_KEY: Optional[str]
+    BINANCE_API_SECRET: Optional[str]
+    DRY_RUN: bool
+    BOT_LOGFILE: str
+    DEFAULT_SYMBOL: str
+    DEFAULT_QUANTITY: float
 
 def load_config() -> BotConfig:
     dry_run_str = os.getenv("DRY_RUN", "true").lower()
@@ -37,12 +37,12 @@ def load_config() -> BotConfig:
         raise ValueError("DEFAULT_QUANTITY must be a positive float.")
 
     return BotConfig(
-        binance_api_key=api_key,
-        binance_api_secret=api_secret,
-        dry_run=dry_run,
-        bot_logfile=os.getenv("BOT_LOGFILE", "bot.log"),
-        default_symbol=os.getenv("DEFAULT_SYMBOL", "BTCUSDT"),
-        default_quantity=default_quantity
+        BINANCE_API_KEY=api_key,
+        BINANCE_API_SECRET=api_secret,
+        DRY_RUN=dry_run,
+        BOT_LOGFILE=os.getenv("BOT_LOGFILE", "bot.log"),
+        DEFAULT_SYMBOL=os.getenv("DEFAULT_SYMBOL", "BTCUSDT"),
+        DEFAULT_QUANTITY=default_quantity
     )
 
 CONFIG: BotConfig = load_config()

@@ -9,21 +9,22 @@ from .logger import get_logger
 logger = get_logger(__name__)
 
 def main():
-    parser = argparse.ArgumentParser(description="Tushar Binance Bot CLI")
-    
-    # Global arguments
-    parser.add_argument("--dry-run", action="store_true", help="Force dry-run mode (no real trades)")
+    # Parent parser for shared arguments
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    parent_parser.add_argument("--dry-run", action="store_true", help="Force dry-run mode (no real trades)")
+
+    parser = argparse.ArgumentParser(description="Tushar Binance Bot CLI", parents=[parent_parser])
     
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
     
     # Market Order Parser
-    market_parser = subparsers.add_parser("market", help="Place a Market Order")
+    market_parser = subparsers.add_parser("market", help="Place a Market Order", parents=[parent_parser])
     market_parser.add_argument("symbol", type=str, help="Trading symbol (e.g. BTCUSDT)")
     market_parser.add_argument("side", type=str, choices=["BUY", "SELL"], help="Order side (BUY/SELL)")
     market_parser.add_argument("quantity", type=float, help="Order quantity")
 
     # Limit Order Parser
-    limit_parser = subparsers.add_parser("limit", help="Place a Limit Order")
+    limit_parser = subparsers.add_parser("limit", help="Place a Limit Order", parents=[parent_parser])
     limit_parser.add_argument("symbol", type=str, help="Trading symbol (e.g. BTCUSDT)")
     limit_parser.add_argument("side", type=str, choices=["BUY", "SELL"], help="Order side (BUY/SELL)")
     limit_parser.add_argument("quantity", type=float, help="Order quantity")

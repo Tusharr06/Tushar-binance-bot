@@ -8,9 +8,9 @@ logger = get_logger(__name__)
 
 class BinanceClient:
     def __init__(self, key: Optional[str] = None, secret: Optional[str] = None, dry_run: Optional[bool] = None):
-        self.key = key or CONFIG.binance_api_key
-        self.secret = secret or CONFIG.binance_api_secret
-        self.dry_run = dry_run if dry_run is not None else CONFIG.dry_run
+        self.key = key or CONFIG.BINANCE_API_KEY
+        self.secret = secret or CONFIG.BINANCE_API_SECRET
+        self.dry_run = dry_run if dry_run is not None else CONFIG.DRY_RUN
         
         self.client = None
         
